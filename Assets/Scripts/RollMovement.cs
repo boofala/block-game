@@ -24,32 +24,29 @@ public class RollMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (input == true)
+        if (input && Input.GetKey(KeyCode.UpArrow))
         {
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                StartCoroutine("moveUp");
-                input = false;
+            StartCoroutine("moveUp");
+            input = false;
 
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                StartCoroutine("moveDown");
-                input = false;
+        }
+        if (input && Input.GetKey(KeyCode.DownArrow))
+        {
+            StartCoroutine("moveDown");
+            input = false;
 
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                StartCoroutine("moveLeft");
-                input = false;
+        }
+        if (input && Input.GetKey(KeyCode.LeftArrow))
+        {
+            StartCoroutine("moveLeft");
+            input = false;
 
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                StartCoroutine("moveRight");
-                input = false;
+        }
+        if (input && Input.GetKey(KeyCode.RightArrow))
+        {
+            StartCoroutine("moveRight");
+            input = false;
 
-            }
         }
     }
 
