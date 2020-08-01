@@ -18,7 +18,7 @@ public class CubeMovement : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 cubeMovement = new Vector3(horizontalInput, verticalInput);
+        Vector3 cubeMovement = new Vector3(horizontalInput, 0f, verticalInput);
 
         transform.position += cubeMovement * Time.deltaTime * cube1Speed;
     }
