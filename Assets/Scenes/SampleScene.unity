@@ -612,6 +612,10 @@ MonoBehaviour:
   rightUp: {fileID: 1586975366}
   leftDown: {fileID: 967886935}
   rightJumpPoint: {fileID: 982226436}
+  leftJumpPoint: {fileID: 1277211490}
+  upJumpPoint: {fileID: 543289210}
+  downJumpPoint: {fileID: 133236947}
+  jumpDelay: 100
   step: 1
   speed: 0.0001
 --- !u!1 &1277211490

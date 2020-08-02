@@ -14,6 +14,11 @@ public class RollMovement : MonoBehaviour
     public GameObject leftDown;
 
     public GameObject rightJumpPoint;
+    public GameObject leftJumpPoint;
+    public GameObject upJumpPoint;
+    public GameObject downJumpPoint;
+
+    public int jumpDelay = 0;
 
     public int step = 9;
 
@@ -25,9 +30,23 @@ public class RollMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Up Movement
+        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.UpArrow))
+        {
+            StartCoroutine("jumpUp");
+            jumpInput = false;
+            moveInput = false;
+        }
         if (moveInput && Input.GetKey(KeyCode.UpArrow))
         {
             StartCoroutine("moveUp");
+            moveInput = false;
+        }
+        //Down Movement
+        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.DownArrow))
+        {
+            StartCoroutine("jumpDown");
+            jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.DownArrow))
@@ -35,12 +54,20 @@ public class RollMovement : MonoBehaviour
             StartCoroutine("moveDown");
             moveInput = false;
         }
+        //Left Movement
+        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.LeftArrow))
+        {
+            StartCoroutine("jumpLeft");
+            jumpInput = false;
+            moveInput = false;
+        }
         if (moveInput && Input.GetKey(KeyCode.LeftArrow))
         {
             StartCoroutine("moveLeft");
             moveInput = false;
         }
-        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space))
+        //Right Movement
+        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightArrow))
         {
             StartCoroutine("jumpRight");
             jumpInput = false;
@@ -54,7 +81,7 @@ public class RollMovement : MonoBehaviour
                
     }
 
-
+    //Up Movement
     IEnumerator moveUp()
     {
         for (int i = 0; i < (90 / step); i++)
@@ -66,6 +93,20 @@ public class RollMovement : MonoBehaviour
         moveInput = true;
     }
 
+    IEnumerator jumpUp()
+    {
+        for (int i = 0; i < (180 / step); i++)
+        {
+            player.transform.RotateAround(upJumpPoint.transform.position, Vector3.right, step);
+            yield return new WaitForSeconds(speed);
+        }
+        center.transform.position = player.transform.position;
+        yield return new WaitForSeconds(speed * jumpDelay);
+        jumpInput = true;
+        moveInput = true;
+    }
+
+    //Down Movement
     IEnumerator moveDown()
     {
         for (int i = 0; i < (90 / step); i++)
@@ -77,6 +118,20 @@ public class RollMovement : MonoBehaviour
         moveInput = true;
     }
 
+    IEnumerator jumpDown()
+    {
+        for (int i = 0; i < (180 / step); i++)
+        {
+            player.transform.RotateAround(downJumpPoint.transform.position, Vector3.left, step);
+            yield return new WaitForSeconds(speed);
+        }
+        center.transform.position = player.transform.position;
+        yield return new WaitForSeconds(speed * jumpDelay);
+        jumpInput = true;
+        moveInput = true;
+    }
+
+    //Left Movement
     IEnumerator moveLeft()
     {
         for (int i = 0; i < (90 / step); i++)
@@ -88,6 +143,20 @@ public class RollMovement : MonoBehaviour
         moveInput = true;
     }
 
+    IEnumerator jumpLeft()
+    {
+        for (int i = 0; i < (180 / step); i++)
+        {
+            player.transform.RotateAround(leftJumpPoint.transform.position, Vector3.forward, step);
+            yield return new WaitForSeconds(speed);
+        }
+        center.transform.position = player.transform.position;
+        yield return new WaitForSeconds(speed * jumpDelay);
+        jumpInput = true;
+        moveInput = true;
+    }
+
+    //Right Movement
     IEnumerator moveRight()
     {
         for (int i = 0; i < (90 / step); i++)
@@ -107,7 +176,7 @@ public class RollMovement : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
-        yield return new WaitForSeconds(speed*100);
+        yield return new WaitForSeconds(speed* jumpDelay);
         jumpInput = true;
         moveInput = true;
     }
