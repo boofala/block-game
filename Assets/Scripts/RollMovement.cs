@@ -10,10 +10,8 @@ public class RollMovement : MonoBehaviour
 
     public GameObject center;
 
-    public GameObject up;
-    public GameObject down;
-    public GameObject left;
-    public GameObject right;
+    public GameObject rightUp;
+    public GameObject leftDown;
 
     public int step = 9;
 
@@ -28,25 +26,21 @@ public class RollMovement : MonoBehaviour
         {
             StartCoroutine("moveUp");
             input = false;
-
         }
         if (input && Input.GetKey(KeyCode.DownArrow))
         {
             StartCoroutine("moveDown");
             input = false;
-
         }
         if (input && Input.GetKey(KeyCode.LeftArrow))
         {
             StartCoroutine("moveLeft");
             input = false;
-
         }
         if (input && Input.GetKey(KeyCode.RightArrow))
         {
             StartCoroutine("moveRight");
             input = false;
-
         }
     }
 
@@ -54,7 +48,7 @@ public class RollMovement : MonoBehaviour
     {
         for (int i = 0; i < (90 / step); i++)
         {
-            player.transform.RotateAround(up.transform.position, Vector3.right, step);
+            player.transform.RotateAround(rightUp.transform.position, Vector3.right, step);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -65,7 +59,7 @@ public class RollMovement : MonoBehaviour
     {
         for (int i = 0; i < (90 / step); i++)
         {
-            player.transform.RotateAround(down.transform.position, Vector3.left, step);
+            player.transform.RotateAround(leftDown.transform.position, Vector3.left, step);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -76,7 +70,7 @@ public class RollMovement : MonoBehaviour
     {
         for (int i = 0; i < (90 / step); i++)
         {
-            player.transform.RotateAround(left.transform.position, Vector3.forward, step);
+            player.transform.RotateAround(leftDown.transform.position, Vector3.forward, step);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -87,7 +81,7 @@ public class RollMovement : MonoBehaviour
     {
         for (int i = 0; i < (90 / step); i++)
         {
-            player.transform.RotateAround(right.transform.position, Vector3.back, step);
+            player.transform.RotateAround(rightUp.transform.position, Vector3.back, step);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
