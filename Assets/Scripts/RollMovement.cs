@@ -9,6 +9,7 @@ public class RollMovement : MonoBehaviour
     public GameObject player;
 
     public GameObject center;
+    public GameObject jumpCenter;
 
     public GameObject rightUp;
     public GameObject leftDown;
@@ -19,8 +20,9 @@ public class RollMovement : MonoBehaviour
     public GameObject downJumpPoint;
 
     public int jumpDelay = 0;
+    public int jumpRotationSpeed = 2;
 
-    public int step = 9;
+    public int degreesInStep = 9;
 
     public float speed = 0.01f;
 
@@ -84,9 +86,9 @@ public class RollMovement : MonoBehaviour
     //Up Movement
     IEnumerator moveUp()
     {
-        for (int i = 0; i < (90 / step); i++)
+        for (int i = 0; i < (90 / degreesInStep); i++)
         {
-            player.transform.RotateAround(rightUp.transform.position, Vector3.right, step);
+            player.transform.RotateAround(rightUp.transform.position, Vector3.right, degreesInStep);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -95,9 +97,11 @@ public class RollMovement : MonoBehaviour
 
     IEnumerator jumpUp()
     {
-        for (int i = 0; i < (180 / step); i++)
+        for (int i = 0; i < (180 / degreesInStep); i++)
         {
-            player.transform.RotateAround(upJumpPoint.transform.position, Vector3.right, step);
+            player.transform.RotateAround(upJumpPoint.transform.position, Vector3.right, degreesInStep);
+            jumpCenter.transform.position = player.transform.position;
+            player.transform.RotateAround(jumpCenter.transform.position, Vector3.right, degreesInStep*jumpRotationSpeed);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -109,9 +113,9 @@ public class RollMovement : MonoBehaviour
     //Down Movement
     IEnumerator moveDown()
     {
-        for (int i = 0; i < (90 / step); i++)
+        for (int i = 0; i < (90 / degreesInStep); i++)
         {
-            player.transform.RotateAround(leftDown.transform.position, Vector3.left, step);
+            player.transform.RotateAround(leftDown.transform.position, Vector3.left, degreesInStep);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -120,9 +124,11 @@ public class RollMovement : MonoBehaviour
 
     IEnumerator jumpDown()
     {
-        for (int i = 0; i < (180 / step); i++)
+        for (int i = 0; i < (180 / degreesInStep); i++)
         {
-            player.transform.RotateAround(downJumpPoint.transform.position, Vector3.left, step);
+            player.transform.RotateAround(downJumpPoint.transform.position, Vector3.left, degreesInStep);
+            jumpCenter.transform.position = player.transform.position;
+            player.transform.RotateAround(jumpCenter.transform.position, Vector3.left, degreesInStep * jumpRotationSpeed);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -134,9 +140,9 @@ public class RollMovement : MonoBehaviour
     //Left Movement
     IEnumerator moveLeft()
     {
-        for (int i = 0; i < (90 / step); i++)
+        for (int i = 0; i < (90 / degreesInStep); i++)
         {
-            player.transform.RotateAround(leftDown.transform.position, Vector3.forward, step);
+            player.transform.RotateAround(leftDown.transform.position, Vector3.forward, degreesInStep);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -145,9 +151,11 @@ public class RollMovement : MonoBehaviour
 
     IEnumerator jumpLeft()
     {
-        for (int i = 0; i < (180 / step); i++)
+        for (int i = 0; i < (180 / degreesInStep); i++)
         {
-            player.transform.RotateAround(leftJumpPoint.transform.position, Vector3.forward, step);
+            player.transform.RotateAround(leftJumpPoint.transform.position, Vector3.forward, degreesInStep);
+            jumpCenter.transform.position = player.transform.position;
+            player.transform.RotateAround(jumpCenter.transform.position, Vector3.forward, degreesInStep * jumpRotationSpeed);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -159,9 +167,9 @@ public class RollMovement : MonoBehaviour
     //Right Movement
     IEnumerator moveRight()
     {
-        for (int i = 0; i < (90 / step); i++)
+        for (int i = 0; i < (90 / degreesInStep); i++)
         {
-            player.transform.RotateAround(rightUp.transform.position, Vector3.back, step);
+            player.transform.RotateAround(rightUp.transform.position, Vector3.back, degreesInStep);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
@@ -170,11 +178,14 @@ public class RollMovement : MonoBehaviour
 
     IEnumerator jumpRight()
     {
-        for (int i = 0; i < (180 / step); i++)
+        for (int i = 0; i < (180 / degreesInStep); i++)
         {
-            player.transform.RotateAround(rightJumpPoint.transform.position, Vector3.back, step);
+            player.transform.RotateAround(rightJumpPoint.transform.position, Vector3.back, degreesInStep);
+            jumpCenter.transform.position = player.transform.position;
+            player.transform.RotateAround(jumpCenter.transform.position, Vector3.back, degreesInStep * jumpRotationSpeed);
             yield return new WaitForSeconds(speed);
         }
+
         center.transform.position = player.transform.position;
         yield return new WaitForSeconds(speed* jumpDelay);
         jumpInput = true;
