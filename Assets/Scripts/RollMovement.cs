@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class RollMovement : MonoBehaviour
 {
-    private Vector3 offset;
+    public int rowStart, columnStart;
+
+    public GridManager gridManager;
 
     public GameObject player;
 
@@ -27,61 +29,88 @@ public class RollMovement : MonoBehaviour
 
     public float speed = 0.01f;
 
-    bool moveInput = true;
-    bool jumpInput = true;
+    private int currRow, currColumn;
 
-    // Update is called once per frame
+    private int stepDistance = 1;
+    private int jumpDistance = 5;
+
+    private bool moveInput = true;
+    private bool jumpInput = true;
+
+    private void Start()
+    {
+        this.currRow = this.rowStart;
+        this.currColumn = this.columnStart;
+        this.transform.position = 
+            this.center.transform.position = 
+            this.jumpCenter.transform.position = 
+            (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f));
+        SetColor();
+    }
+
     void Update()
     {
         //Up Movement
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.UpArrow))
         {
+            currRow -= jumpDistance;
             StartCoroutine("jumpUp");
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.UpArrow))
         {
+            currRow -= stepDistance;
             StartCoroutine("moveUp");
             moveInput = false;
         }
         //Down Movement
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.DownArrow))
         {
+            currRow += jumpDistance;
             StartCoroutine("jumpDown");
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.DownArrow))
         {
+            currRow += stepDistance;
             StartCoroutine("moveDown");
             moveInput = false;
         }
         //Left Movement
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.LeftArrow))
         {
+            currColumn -= jumpDistance;
             StartCoroutine("jumpLeft");
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.LeftArrow))
         {
+            currColumn -= stepDistance;
             StartCoroutine("moveLeft");
             moveInput = false;
         }
         //Right Movement
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightArrow))
         {
+            currColumn += jumpDistance;
             StartCoroutine("jumpRight");
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.RightArrow))
         {
+            currColumn += stepDistance;
             StartCoroutine("moveRight");
             moveInput = false;
         }
-               
+    }
+
+    private void SetColor()
+    {
+        gridManager.SetColor(currRow, currColumn, Color.cyan);
     }
 
     //Up Movement
@@ -94,6 +123,7 @@ public class RollMovement : MonoBehaviour
         }
         center.transform.position = player.transform.position;
         moveInput = true;
+        SetColor();
     }
 
     IEnumerator jumpUp()
@@ -119,6 +149,7 @@ public class RollMovement : MonoBehaviour
         yield return new WaitForSeconds(speed * jumpDelay);
         jumpInput = true;
         moveInput = true;
+        SetColor();
     }
 
     //Down Movement
@@ -131,6 +162,7 @@ public class RollMovement : MonoBehaviour
         }
         center.transform.position = player.transform.position;
         moveInput = true;
+        SetColor();
     }
 
     IEnumerator jumpDown()
@@ -156,6 +188,7 @@ public class RollMovement : MonoBehaviour
         yield return new WaitForSeconds(speed * jumpDelay);
         jumpInput = true;
         moveInput = true;
+        SetColor();
     }
 
     //Left Movement
@@ -168,6 +201,7 @@ public class RollMovement : MonoBehaviour
         }
         center.transform.position = player.transform.position;
         moveInput = true;
+        SetColor();
     }
 
     IEnumerator jumpLeft()
@@ -194,6 +228,7 @@ public class RollMovement : MonoBehaviour
         yield return new WaitForSeconds(speed * jumpDelay);
         jumpInput = true;
         moveInput = true;
+        SetColor();
     }
 
     //Right Movement
@@ -206,6 +241,7 @@ public class RollMovement : MonoBehaviour
         }
         center.transform.position = player.transform.position;
         moveInput = true;
+        SetColor();
     }
 
     IEnumerator jumpRight()
@@ -232,6 +268,7 @@ public class RollMovement : MonoBehaviour
         yield return new WaitForSeconds(speed* jumpDelay);
         jumpInput = true;
         moveInput = true;
+        SetColor();
     }
 
 }
