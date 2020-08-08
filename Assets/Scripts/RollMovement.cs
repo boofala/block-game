@@ -21,6 +21,7 @@ public class RollMovement : MonoBehaviour
     public GameObject upJumpPoint;
     public GameObject downJumpPoint;
 
+    public Vector3 direction;
     public int jumpDelay = 0;
     public int jumpRotationSpeed = 2;
     public int jumpWobbleDegrees = 5;
@@ -61,7 +62,8 @@ public class RollMovement : MonoBehaviour
         if (moveInput && Input.GetKey(KeyCode.UpArrow))
         {
             currRow -= stepDistance;
-            StartCoroutine("moveUp");
+            direction = Vector3.right;
+            StartCoroutine(move(rightUp, direction));
             moveInput = false;
         }
         //Down Movement
@@ -75,7 +77,8 @@ public class RollMovement : MonoBehaviour
         if (moveInput && Input.GetKey(KeyCode.DownArrow))
         {
             currRow += stepDistance;
-            StartCoroutine("moveDown");
+            direction = Vector3.left;
+            StartCoroutine(move(leftDown, direction));
             moveInput = false;
         }
         //Left Movement
@@ -89,7 +92,8 @@ public class RollMovement : MonoBehaviour
         if (moveInput && Input.GetKey(KeyCode.LeftArrow))
         {
             currColumn -= stepDistance;
-            StartCoroutine("moveLeft");
+            direction = Vector3.forward;
+            StartCoroutine(move(leftDown, direction));
             moveInput = false;
         }
         //Right Movement
@@ -103,7 +107,8 @@ public class RollMovement : MonoBehaviour
         if (moveInput && Input.GetKey(KeyCode.RightArrow))
         {
             currColumn += stepDistance;
-            StartCoroutine("moveRight");
+            direction = Vector3.back;
+            StartCoroutine(move(rightUp, direction));
             moveInput = false;
         }
     }
@@ -111,6 +116,19 @@ public class RollMovement : MonoBehaviour
     private void SetColor()
     {
         gridManager.SetColor(currRow, currColumn, Color.cyan);
+    }
+
+    //Generalized Move method *******************************************
+    IEnumerator move(GameObject point, Vector3 direction)
+    {
+        for (int i = 0; i < (90 / degreesInStep); i ++)
+        {
+            player.transform.RotateAround(point.transform.position, direction, degreesInStep);
+            yield return new WaitForSeconds(speed);
+        }
+        center.transform.position = player.transform.position;
+        moveInput = true;
+        SetColor();
     }
 
     //Up Movement
