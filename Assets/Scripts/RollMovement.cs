@@ -14,7 +14,7 @@ public class RollMovement : MonoBehaviour
 
     public GameObject player;
 
-    //Points
+    // Points
     private GameObject center;
     private GameObject jumpCenter;
 
@@ -28,23 +28,23 @@ public class RollMovement : MonoBehaviour
 
     public bool isWasd;
 
-    //Movement Parameters
+    // Movement Parameters
     public float speed = 0.01f;
 
-    //Jump Parameters
+    // Jump Parameters
     public int jumpDelay = 0;
     public int jumpRotationSpeed = 2;
     public int jumpWobbleDegrees = 5;
     public int stepDistance = 1;
     public int jumpDistance = 4;
 
-    //Rotation Parameters
+    // Rotation Parameters
     public int degreesInStep = 9;
     
-    //Grid Variables
+    // Grid Variables
     private int currRow, currColumn;
 
-    //Input Variables
+    // Input Variables
     private bool moveInput = true;
     private bool jumpInput = true;
 
@@ -81,7 +81,7 @@ public class RollMovement : MonoBehaviour
         this.downJumpPoint = new GameObject();
 
 
-        // set position
+        // Set Position
         this.currRow = this.rowStart;
         this.currColumn = this.columnStart;
         Vector3 startOffset = new Vector3(0f, 0.5f, 0f);
@@ -109,7 +109,7 @@ public class RollMovement : MonoBehaviour
         SetBlockColor(this.blockColor);
         SetTileColor();
 
-        // set keys
+        // Set Keys
         if (this.isWasd)
         {
             this.keys = wasdKeys;
@@ -122,7 +122,7 @@ public class RollMovement : MonoBehaviour
 
     void Update()
     {
-        //Up Movement
+        // Up Movement
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["up"]))
         {
             currRow -= jumpDistance;
@@ -136,7 +136,7 @@ public class RollMovement : MonoBehaviour
             StartCoroutine(move(rightUp, Vector3.right));
             moveInput = false;
         }
-        //Down Movement
+        // Down Movement
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["down"]))
         {
             currRow += jumpDistance;
@@ -164,7 +164,7 @@ public class RollMovement : MonoBehaviour
             StartCoroutine(move(leftDown, Vector3.forward));
             moveInput = false;
         }
-        //Right Movement
+        // Right Movement
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["right"]))
         {
             currColumn += jumpDistance;
@@ -179,7 +179,7 @@ public class RollMovement : MonoBehaviour
             moveInput = false;
         }
     }
-
+    // Set Colors
     private void SetBlockColor(Color color)
     {
         var renderer = this.GetComponent<Renderer>();
@@ -192,7 +192,7 @@ public class RollMovement : MonoBehaviour
         gridManager.SetColor(currRow, currColumn, this.tileColor);
     }
 
-    //Generalized Move method *******************************************
+    // Move
     IEnumerator move(GameObject point, Vector3 direction)
     {
         for (int i = 0; i < (90 / degreesInStep); i ++)
