@@ -21,6 +21,8 @@ public class RollMovement : MonoBehaviour
     public GameObject upJumpPoint;
     public GameObject downJumpPoint;
 
+    public bool isWasd;
+
     public Vector3 direction;
     public int jumpDelay = 0;
     public int jumpRotationSpeed = 2;
@@ -33,33 +35,66 @@ public class RollMovement : MonoBehaviour
     private int currRow, currColumn;
 
     private int stepDistance = 1;
-    private int jumpDistance = 5;
+    private int jumpDistance = 4;
 
     private bool moveInput = true;
     private bool jumpInput = true;
 
+
+    private Dictionary<string, KeyCode> wasdKeys = new Dictionary<string, KeyCode>
+    {
+        { "up", KeyCode.W },
+        { "down", KeyCode.S },
+        { "left", KeyCode.A },
+        { "right", KeyCode.D },
+        { "jump", KeyCode.Space }
+    };
+
+    private Dictionary<string, KeyCode> arrowKeys = new Dictionary<string, KeyCode>
+    {
+        { "up", KeyCode.UpArrow },
+        { "down", KeyCode.DownArrow },
+        { "left", KeyCode.LeftArrow },
+        { "right", KeyCode.RightArrow },
+        { "jump", KeyCode.KeypadEnter }
+    };
+
+    private Dictionary<string, KeyCode> keys;
+
     private void Start()
     {
+        // set position
         this.currRow = this.rowStart;
         this.currColumn = this.columnStart;
         this.transform.position = 
             this.center.transform.position = 
             this.jumpCenter.transform.position = 
             (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f));
+
         SetColor();
+
+        // set keys
+        if (this.isWasd)
+        {
+            this.keys = wasdKeys;
+        }
+        else
+        {
+            this.keys = arrowKeys;
+        }
     }
 
     void Update()
     {
         //Up Movement
-        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.UpArrow))
+        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["up"]))
         {
             currRow -= jumpDistance;
             StartCoroutine("jumpUp");
             jumpInput = false;
             moveInput = false;
         }
-        if (moveInput && Input.GetKey(KeyCode.UpArrow))
+        if (moveInput && Input.GetKey(this.keys["up"]))
         {
             currRow -= stepDistance;
             direction = Vector3.right;
@@ -67,14 +102,14 @@ public class RollMovement : MonoBehaviour
             moveInput = false;
         }
         //Down Movement
-        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.DownArrow))
+        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["down"]))
         {
             currRow += jumpDistance;
             StartCoroutine("jumpDown");
             jumpInput = false;
             moveInput = false;
         }
-        if (moveInput && Input.GetKey(KeyCode.DownArrow))
+        if (moveInput && Input.GetKey(this.keys["down"]))
         {
             currRow += stepDistance;
             direction = Vector3.left;
@@ -82,14 +117,14 @@ public class RollMovement : MonoBehaviour
             moveInput = false;
         }
         //Left Movement
-        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.LeftArrow))
+        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["left"]))
         {
             currColumn -= jumpDistance;
             StartCoroutine("jumpLeft");
             jumpInput = false;
             moveInput = false;
         }
-        if (moveInput && Input.GetKey(KeyCode.LeftArrow))
+        if (moveInput && Input.GetKey(this.keys["left"]))
         {
             currColumn -= stepDistance;
             direction = Vector3.forward;
@@ -97,14 +132,14 @@ public class RollMovement : MonoBehaviour
             moveInput = false;
         }
         //Right Movement
-        if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightArrow))
+        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["right"]))
         {
             currColumn += jumpDistance;
             StartCoroutine("jumpRight");
             jumpInput = false;
             moveInput = false;
         }
-        if (moveInput && Input.GetKey(KeyCode.RightArrow))
+        if (moveInput && Input.GetKey(this.keys["right"]))
         {
             currColumn += stepDistance;
             direction = Vector3.back;

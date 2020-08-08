@@ -10,8 +10,7 @@ public class GridManager : MonoBehaviour
     public GameObject planePrefab;
     private GameObject[,] tiles;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         tiles = new GameObject[numRows, numColumns];
         for (int i = 0; i < numColumns * numRows; i++)
