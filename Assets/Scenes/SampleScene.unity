@@ -573,11 +573,12 @@ MonoBehaviour:
   leftJumpPoint: {fileID: 1277211490}
   upJumpPoint: {fileID: 543289210}
   downJumpPoint: {fileID: 133236947}
-  speed: 0.003
+  direction: {x: 0, y: 0, z: 0}
   jumpDelay: 100
   jumpRotationSpeed: 2
   jumpWobbleDegrees: 5
   degreesInStep: 1
+  speed: 0.003
 --- !u!1 &1277211490
 GameObject:
   m_ObjectHideFlags: 0
