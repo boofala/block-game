@@ -55,60 +55,56 @@ public class RollMovement : MonoBehaviour
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.UpArrow))
         {
             currRow -= jumpDistance;
-            StartCoroutine("jumpUp");
+            StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.UpArrow))
         {
             currRow -= stepDistance;
-            direction = Vector3.right;
-            StartCoroutine(move(rightUp, direction));
+            StartCoroutine(move(rightUp, Vector3.right));
             moveInput = false;
         }
         //Down Movement
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.DownArrow))
         {
             currRow += jumpDistance;
-            StartCoroutine("jumpDown");
+            StartCoroutine(jump(downJumpPoint, leftDown, Vector3.left, Vector3.right));
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.DownArrow))
         {
             currRow += stepDistance;
-            direction = Vector3.left;
-            StartCoroutine(move(leftDown, direction));
+            StartCoroutine(move(leftDown, Vector3.left));
             moveInput = false;
         }
         //Left Movement
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.LeftArrow))
         {
             currColumn -= jumpDistance;
-            StartCoroutine("jumpLeft");
+            StartCoroutine(jump(leftJumpPoint, leftDown, Vector3.forward, Vector3.back));
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.LeftArrow))
         {
             currColumn -= stepDistance;
-            direction = Vector3.forward;
-            StartCoroutine(move(leftDown, direction));
+            StartCoroutine(move(leftDown, Vector3.forward));
             moveInput = false;
         }
         //Right Movement
         if (jumpInput && moveInput && Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightArrow))
         {
             currColumn += jumpDistance;
-            StartCoroutine("jumpRight");
+            StartCoroutine(jump(rightJumpPoint, rightUp, Vector3.back, Vector3.forward));
             jumpInput = false;
             moveInput = false;
         }
         if (moveInput && Input.GetKey(KeyCode.RightArrow))
         {
             currColumn += stepDistance;
-            direction = Vector3.back;
-            StartCoroutine(move(rightUp, direction));
+            StartCoroutine(move(rightUp, Vector3.back));
             moveInput = false;
         }
     }
@@ -127,6 +123,32 @@ public class RollMovement : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = player.transform.position;
+        moveInput = true;
+        SetColor();
+    }
+
+    IEnumerator jump(GameObject jumpPoint, GameObject point, Vector3 direction, Vector3 wobbleDirection)
+    {
+        for (int i =0; i < (180 / degreesInStep); i++)
+        {
+            player.transform.RotateAround(jumpPoint.transform.position, direction, degreesInStep);
+            jumpCenter.transform.position = player.transform.position;
+            player.transform.RotateAround(jumpCenter.transform.position, direction, degreesInStep * jumpRotationSpeed);
+            yield return new WaitForSeconds(speed);
+        }
+        for (int i = 0; i < (jumpWobbleDegrees / degreesInStep); i++)
+        {
+            player.transform.RotateAround(point.transform.position, direction, degreesInStep);
+            yield return new WaitForSeconds(speed * 2);
+        }
+        for (int i = 0; i < (jumpWobbleDegrees / degreesInStep); i++)
+        {
+            player.transform.RotateAround(point.transform.position, wobbleDirection, degreesInStep);
+            yield return new WaitForSeconds(speed * 2);
+        }
+        center.transform.position = player.transform.position;
+        yield return new WaitForSeconds(speed * jumpDelay);
+        jumpInput = true;
         moveInput = true;
         SetColor();
     }
