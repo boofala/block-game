@@ -8,19 +8,23 @@ public class RollMovement : MonoBehaviour
 
     public GridManager gridManager;
 
+    public Color blockColor;
+
+    public Color tileColor;
+
     public GameObject player;
 
     //Points
-    public GameObject center;
-    public GameObject jumpCenter;
-   
-    public GameObject rightUp;
-    public GameObject leftDown;
+    private GameObject center;
+    private GameObject jumpCenter;
 
-    public GameObject rightJumpPoint;
-    public GameObject leftJumpPoint;
-    public GameObject upJumpPoint;
-    public GameObject downJumpPoint;
+    private GameObject rightUp;
+    private GameObject leftDown;
+
+    private GameObject rightJumpPoint;
+    private GameObject leftJumpPoint;
+    private GameObject upJumpPoint;
+    private GameObject downJumpPoint;
 
     public bool isWasd;
 
@@ -31,14 +35,14 @@ public class RollMovement : MonoBehaviour
     public int jumpDelay = 0;
     public int jumpRotationSpeed = 2;
     public int jumpWobbleDegrees = 5;
+    public int stepDistance = 1;
+    public int jumpDistance = 4;
 
     //Rotation Parameters
     public int degreesInStep = 9;
     
     //Grid Variables
     private int currRow, currColumn;
-    private int stepDistance = 1;
-    private int jumpDistance = 4;
 
     //Input Variables
     private bool moveInput = true;
@@ -66,19 +70,32 @@ public class RollMovement : MonoBehaviour
 
     private void Start()
     {
+        // instantiate GameObjects
+        this.center = new GameObject();
+        this.jumpCenter = new GameObject();
+        this.rightUp = new GameObject();
+        this.leftDown = new GameObject();
+        this.rightJumpPoint = new GameObject();
+        this.leftJumpPoint = new GameObject();
+        this.upJumpPoint = new GameObject();
+        this.downJumpPoint = new GameObject();
+
+
         // set position
         this.currRow = this.rowStart;
         this.currColumn = this.columnStart;
+        Vector3 startOffset = new Vector3(0f, 0.5f, 0f);
+        Vector3 startPoint = this.gridManager.GetPosition(rowStart, columnStart) + startOffset;
         this.transform.position = 
             this.center.transform.position = 
-            this.jumpCenter.transform.position = 
-            (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f));
-        this.rightUp.transform.position = (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f) + new Vector3(stepDistance / 2f, -stepDistance / 2f, stepDistance / 2f));
-        this.leftDown.transform.position = (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f) + new Vector3(-stepDistance / 2f, -stepDistance / 2f, -stepDistance / 2f));
-        this.rightJumpPoint.transform.position = (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f) + new Vector3(jumpDistance / 2f, 0, 0));
-        this.leftJumpPoint.transform.position = (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f) + new Vector3(-jumpDistance / 2f, 0, 0));
-        this.upJumpPoint.transform.position = (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f) + new Vector3(0, 0, jumpDistance / 2f));
-        this.downJumpPoint.transform.position = (this.gridManager.GetPosition(rowStart, columnStart) + new Vector3(0f, 0.5f, 0f) + new Vector3(0, 0, -jumpDistance / 2f));
+            this.jumpCenter.transform.position =
+            startPoint;
+        this.rightUp.transform.position = startPoint + new Vector3(stepDistance / 2f, -stepDistance / 2f, stepDistance / 2f);
+        this.leftDown.transform.position = startPoint + new Vector3(-stepDistance / 2f, -stepDistance / 2f, -stepDistance / 2f);
+        this.rightJumpPoint.transform.position = startPoint + new Vector3(jumpDistance / 2f, 0, 0);
+        this.leftJumpPoint.transform.position = startPoint + new Vector3(-jumpDistance / 2f, 0, 0);
+        this.upJumpPoint.transform.position = startPoint + new Vector3(0, 0, jumpDistance / 2f);
+        this.downJumpPoint.transform.position = startPoint + new Vector3(0, 0, -jumpDistance / 2f);
         this.rightUp.transform.parent =
             this.rightUp.transform.parent =
             this.leftDown.transform.parent =
@@ -87,7 +104,10 @@ public class RollMovement : MonoBehaviour
             this.upJumpPoint.transform.parent =
             this.downJumpPoint.transform.parent =
             center.transform;
-        SetColor();
+
+        // Set Colors
+        SetBlockColor(this.blockColor);
+        SetTileColor();
 
         // set keys
         if (this.isWasd)
@@ -160,9 +180,16 @@ public class RollMovement : MonoBehaviour
         }
     }
 
-    private void SetColor()
+    private void SetBlockColor(Color color)
     {
-        gridManager.SetColor(currRow, currColumn, Color.cyan);
+        var renderer = this.GetComponent<Renderer>();
+        renderer.material.SetColor("_Color", color);
+        renderer.material.SetColor("_EmissionColor", color);
+    }
+
+    private void SetTileColor()
+    {
+        gridManager.SetColor(currRow, currColumn, this.tileColor);
     }
 
     //Generalized Move method *******************************************
@@ -175,7 +202,7 @@ public class RollMovement : MonoBehaviour
         }
         center.transform.position = player.transform.position;
         moveInput = true;
-        SetColor();
+        SetTileColor();
     }
 
     IEnumerator jump(GameObject jumpPoint, GameObject point, Vector3 direction, Vector3 wobbleDirection)
@@ -201,7 +228,7 @@ public class RollMovement : MonoBehaviour
         yield return new WaitForSeconds(speed * jumpDelay);
         jumpInput = true;
         moveInput = true;
-        SetColor();
+        SetTileColor();
     }
 
 }
