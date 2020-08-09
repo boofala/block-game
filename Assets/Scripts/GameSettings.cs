@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    public static readonly int FRAME_RATE = 100;
+    public static readonly int FRAME_RATE = 120;
 
     // GRID
     public static readonly int NUM_ROWS = 9;
