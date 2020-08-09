@@ -27,7 +27,7 @@ public class GridManager : MonoBehaviour
         GameObject tile = this.tiles[row, column];
         var renderer = tile.GetComponent<Renderer>();
         renderer.material.SetColor("_Color", color);
-    }
+}
     
     public Vector3 GetPosition(int row, int column)
     {

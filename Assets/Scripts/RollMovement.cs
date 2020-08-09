@@ -7,6 +7,7 @@ public class RollMovement : MonoBehaviour
     public int rowStart, columnStart;
 
     public GridManager gridManager;
+    public OccupancyManager occupancyManager;
 
     public Color blockColor;
 
@@ -125,58 +126,90 @@ public class RollMovement : MonoBehaviour
         // Up Movement
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["up"]))
         {
-            currRow -= jumpDistance;
-            StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
-            jumpInput = false;
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow - jumpDistance, currColumn);
+            if (!isOccupied)
+            {
+                currRow -= jumpDistance;
+                StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
+                jumpInput = false;
+                moveInput = false;
+            }
         }
         if (moveInput && Input.GetKey(this.keys["up"]))
         {
-            currRow -= stepDistance;
-            StartCoroutine(move(rightUp, Vector3.right));
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow - stepDistance, currColumn);
+            if (!isOccupied)
+            {
+                currRow -= stepDistance;
+                StartCoroutine(move(rightUp, Vector3.right));
+                moveInput = false;
+            }
         }
         // Down Movement
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["down"]))
         {
-            currRow += jumpDistance;
-            StartCoroutine(jump(downJumpPoint, leftDown, Vector3.left, Vector3.right));
-            jumpInput = false;
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow + jumpDistance, currColumn);
+            if (!isOccupied)
+            {
+                currRow += jumpDistance;
+                StartCoroutine(jump(downJumpPoint, leftDown, Vector3.left, Vector3.right));
+                jumpInput = false;
+                moveInput = false;
+            }
         }
         if (moveInput && Input.GetKey(this.keys["down"]))
         {
-            currRow += stepDistance;
-            StartCoroutine(move(leftDown, Vector3.left));
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow + stepDistance, currColumn);
+            if (!isOccupied)
+            {
+                currRow += stepDistance;
+                StartCoroutine(move(leftDown, Vector3.left));
+                moveInput = false;
+            }
         }
         //Left Movement
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["left"]))
         {
-            currColumn -= jumpDistance;
-            StartCoroutine(jump(leftJumpPoint, leftDown, Vector3.forward, Vector3.back));
-            jumpInput = false;
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn - jumpDistance);
+            if (!isOccupied)
+            {
+                currColumn -= jumpDistance;
+                StartCoroutine(jump(leftJumpPoint, leftDown, Vector3.forward, Vector3.back));
+                jumpInput = false;
+                moveInput = false;
+            }
         }
         if (moveInput && Input.GetKey(this.keys["left"]))
         {
-            currColumn -= stepDistance;
-            StartCoroutine(move(leftDown, Vector3.forward));
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn - stepDistance);
+            if (!isOccupied)
+            {
+                currColumn -= stepDistance;
+                StartCoroutine(move(leftDown, Vector3.forward));
+                moveInput = false;
+            }
         }
         // Right Movement
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["right"]))
         {
-            currColumn += jumpDistance;
-            StartCoroutine(jump(rightJumpPoint, rightUp, Vector3.back, Vector3.forward));
-            jumpInput = false;
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn + jumpDistance);
+            if (!isOccupied)
+            {
+                currColumn += jumpDistance;
+                StartCoroutine(jump(rightJumpPoint, rightUp, Vector3.back, Vector3.forward));
+                jumpInput = false;
+                moveInput = false;
+            }
         }
         if (moveInput && Input.GetKey(this.keys["right"]))
         {
-            currColumn += stepDistance;
-            StartCoroutine(move(rightUp, Vector3.back));
-            moveInput = false;
+            bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn + stepDistance);
+            if (!isOccupied)
+            {
+                currColumn += stepDistance;
+                StartCoroutine(move(rightUp, Vector3.back));
+                moveInput = false;
+            }
         }
     }
     // Set Colors
