@@ -26,15 +26,22 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public Color GetColor(int row, int column)
+    {
+        GameObject tile = this.tiles[row, column];
+        return tile.GetComponent<Renderer>().material.GetColor("_Color");
+    }
+
     public void SetColor(int row, int column, Color color)
     {
         GameObject tile = this.tiles[row, column];
-        var renderer = tile.GetComponent<Renderer>();
-        renderer.material.SetColor("_Color", color);
-}
+        tile.GetComponent<Renderer>().material.SetColor("_Color", color);
+    }
     
     public Vector3 GetPosition(int row, int column)
     {
         return this.tiles[row, column].transform.position;
     }
+
+
 }

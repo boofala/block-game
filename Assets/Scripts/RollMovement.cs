@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RollMovement : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class RollMovement : MonoBehaviour
     
     // Grid Variables
     private int currRow, currColumn;
+    private Color boardColor;
+    private bool gameEnd = false;
 
     // Input Variables
     private bool moveInput = true;
@@ -107,6 +110,7 @@ public class RollMovement : MonoBehaviour
 
         // Set Colors
         SetBlockColor(this.blockColor);
+        boardColor = GetTileColor();
         SetTileColor();
 
         // Set Keys
@@ -123,6 +127,13 @@ public class RollMovement : MonoBehaviour
     void Update()
     {
         // Up Movement
+        if (gameEnd)
+        {
+            //show text
+            StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
+            Application.Quit();
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
+        }
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["up"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow - jumpDistance, currColumn);
@@ -211,6 +222,8 @@ public class RollMovement : MonoBehaviour
             }
         }
     }
+
+
     // Set Colors
     private void SetBlockColor(Color color)
     {
@@ -224,6 +237,12 @@ public class RollMovement : MonoBehaviour
         gridManager.SetColor(currRow, currColumn, this.tileColor);
     }
 
+    // Get Colors
+    private Color GetTileColor()
+    {
+        return gridManager.GetColor(currRow, currColumn);
+    }
+
     // Move
     IEnumerator move(GameObject point, Vector3 direction)
     {
@@ -233,8 +252,12 @@ public class RollMovement : MonoBehaviour
             yield return null;
         }
         center.transform.position = player.transform.position;
-        moveInput = true;
+        if (GetTileColor() != boardColor)
+        {
+            gameEnd = true;
+        }
         SetTileColor();
+        moveInput = true;
     }
 
     IEnumerator jump(GameObject jumpPoint, GameObject point, Vector3 direction, Vector3 wobbleDirection)
@@ -257,10 +280,14 @@ public class RollMovement : MonoBehaviour
             yield return null;
         }
         center.transform.position = player.transform.position;
+        if (GetTileColor() != boardColor)
+        {
+            gameEnd = true;
+        }
+        SetTileColor();
         yield return null;
         jumpInput = true;
         moveInput = true;
-        SetTileColor();
     }
 
 }
