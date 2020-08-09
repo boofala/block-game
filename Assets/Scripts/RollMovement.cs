@@ -20,7 +20,7 @@ public class RollMovement : MonoBehaviour
 
     // GameEnd
     private bool gameEnd = false;
-    public GameObject restartText;
+    public Text restartText;
 
     // Points
     private GameObject center;
@@ -87,7 +87,7 @@ public class RollMovement : MonoBehaviour
         this.leftJumpPoint = new GameObject();
         this.upJumpPoint = new GameObject();
         this.downJumpPoint = new GameObject();
-        //restartText = uiManager.AddTextToCanvas("test");
+        restartText.text = "";
 
 
         // Set Position
@@ -137,17 +137,15 @@ public class RollMovement : MonoBehaviour
         {
             jumpInput = false;
             moveInput = false;
-            //restartText.text = "Press " + this.keys["jump"] + " to continue";
+            restartText.text = "Press " + this.keys["jump"] + " to Restart";
             if (Input.GetKey(this.keys["jump"]))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                //restartText.text = "";
+                restartText.text = "";
                 gameEnd = false;
                 jumpInput = true;
                 moveInput = true;
             }
-            //Application.Quit();
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
         }
         if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["up"]))
         {
