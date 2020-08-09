@@ -253,9 +253,9 @@ public class RollMovement : MonoBehaviour
         }
         center.transform.position = player.transform.position;
         if (GetTileColor() != boardColor)
-            {
+        {
             gameEnd = true;
-            }
+        }
         SetTileColor();
         moveInput = true;
     }
@@ -285,7 +285,6 @@ public class RollMovement : MonoBehaviour
             gameEnd = true;
         }
         SetTileColor();
-        moveInput = true;
         yield return null;
         jumpInput = true;
         moveInput = true;
