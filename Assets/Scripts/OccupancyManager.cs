@@ -6,7 +6,8 @@ using UnityEngine;
 public class OccupancyManager : MonoBehaviour
 {
     private bool[,] occupancyGrid;
-    public int numRows, numColumns;
+    private int numRows = GameSettings.NUM_ROWS;
+    private int numColumns = GameSettings.NUM_COLUMNS;
 
 
     // Start is called before the first frame update

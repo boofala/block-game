@@ -29,18 +29,15 @@ public class RollMovement : MonoBehaviour
 
     public bool isWasd;
 
-    // Movement Parameters
-    public float speed = 0.01f;
-
     // Jump Parameters
-    public int jumpDelay = 0;
-    public int jumpRotationSpeed = 2;
-    public int jumpWobbleDegrees = 5;
-    public int stepDistance = 1;
-    public int jumpDistance = 4;
+    private int jumpDelay = GameSettings.JUMP_DELAY;
+    private int jumpRotationSpeed = GameSettings.JUMP_ROTATION_SPEED;
+    private int jumpWobbleDegrees = GameSettings.JUMP_WOBBLE_DEGREES;
+    private int stepDistance = GameSettings.STEP_DISTANCE;
+    private int jumpDistance = GameSettings.JUMP_DISTANCE;
 
     // Rotation Parameters
-    public int degreesInStep = 9;
+    private int degreesInStep = GameSettings.DEGREES_IN_STEP;
     
     // Grid Variables
     private int currRow, currColumn;
@@ -71,6 +68,8 @@ public class RollMovement : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = GameSettings.FRAME_RATE;
+
         // instantiate GameObjects
         this.center = new GameObject();
         this.jumpCenter = new GameObject();
@@ -231,7 +230,7 @@ public class RollMovement : MonoBehaviour
         for (int i = 0; i < (90 / degreesInStep); i ++)
         {
             player.transform.RotateAround(point.transform.position, direction, degreesInStep);
-            yield return new WaitForSeconds(speed);
+            yield return null;
         }
         center.transform.position = player.transform.position;
         moveInput = true;
@@ -245,20 +244,20 @@ public class RollMovement : MonoBehaviour
             player.transform.RotateAround(jumpPoint.transform.position, direction, degreesInStep);
             jumpCenter.transform.position = player.transform.position;
             player.transform.RotateAround(jumpCenter.transform.position, direction, degreesInStep * jumpRotationSpeed);
-            yield return new WaitForSeconds(speed);
+            yield return null;
         }
         for (int i = 0; i < (jumpWobbleDegrees / degreesInStep); i++)
         {
             player.transform.RotateAround(point.transform.position, direction, degreesInStep);
-            yield return new WaitForSeconds(speed * 2);
+            yield return null;
         }
         for (int i = 0; i < (jumpWobbleDegrees / degreesInStep); i++)
         {
             player.transform.RotateAround(point.transform.position, wobbleDirection, degreesInStep);
-            yield return new WaitForSeconds(speed * 2);
+            yield return null;
         }
         center.transform.position = player.transform.position;
-        yield return new WaitForSeconds(speed * jumpDelay);
+        yield return null;
         jumpInput = true;
         moveInput = true;
         SetTileColor();

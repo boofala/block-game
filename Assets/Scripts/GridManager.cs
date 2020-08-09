@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public float xOffset, zOffset;
-    public int numRows, numColumns;
-    public float xSize, zSize;
     public GameObject planePrefab;
+
+    private int numRows = GameSettings.NUM_ROWS;
+    private int numColumns = GameSettings.NUM_COLUMNS;
+    private float xSize = 1f, zSize = 1f;
     private GameObject[,] tiles;
+    private float xOffset, zOffset;
 
     void Awake()
     {
+        xOffset = - (numRows - 1) / 2f;
+        zOffset = (numColumns - 1) / 2f;
         tiles = new GameObject[numRows, numColumns];
         for (int i = 0; i < numColumns * numRows; i++)
         {
