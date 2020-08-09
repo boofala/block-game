@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6328461311994745914}
   - component: {fileID: 6328461311994745909}
-  - component: {fileID: 6328461311994745915}
   - component: {fileID: 6114633424080508390}
   - component: {fileID: 4994134028349503758}
   - component: {fileID: 5666640550170478563}
@@ -61,18 +60,6 @@ MonoBehaviour:
   stepDistance: 1
   jumpDistance: 4
   degreesInStep: 1
---- !u!114 &6328461311994745915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6328461311994745912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d90c6a0cf6abd42bf02358b6b0c82d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &6114633424080508390
 MeshRenderer:
   m_ObjectHideFlags: 0
