@@ -130,6 +130,7 @@ public class RollMovement : MonoBehaviour
         if (gameEnd)
         {
             //show text
+            StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
             Application.Quit();
             //SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
         }
@@ -255,8 +256,8 @@ public class RollMovement : MonoBehaviour
             {
             gameEnd = true;
             }
-        moveInput = true;
         SetTileColor();
+        moveInput = true;
     }
 
     IEnumerator jump(GameObject jumpPoint, GameObject point, Vector3 direction, Vector3 wobbleDirection)
@@ -279,10 +280,15 @@ public class RollMovement : MonoBehaviour
             yield return null;
         }
         center.transform.position = player.transform.position;
+        if (GetTileColor() != boardColor)
+        {
+            gameEnd = true;
+        }
+        SetTileColor();
+        moveInput = true;
         yield return null;
         jumpInput = true;
         moveInput = true;
-        SetTileColor();
     }
 
 }
