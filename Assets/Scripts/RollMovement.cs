@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RollMovement : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class RollMovement : MonoBehaviour
 
     public GridManager gridManager;
     public OccupancyManager occupancyManager;
+    public UIManager uiManager;
 
     public Color blockColor;
 
@@ -20,6 +22,10 @@ public class RollMovement : MonoBehaviour
     private Queue<KeyCode> inputBuffer;
     private int framesInBuffer = -1;
     private readonly int bufferMaxFrames = GameSettings.BUFFER_MAX_FRAMES;
+
+    // GameEnd
+    private bool gameEnd = false;
+    public Text restartText;
 
     // Points
     private GameObject center;
@@ -48,7 +54,6 @@ public class RollMovement : MonoBehaviour
     // Grid Variables
     private int currRow, currColumn;
     private Color boardColor;
-    private bool gameEnd = false;
 
     // Input Variables
     private bool moveInput = true;
@@ -87,6 +92,7 @@ public class RollMovement : MonoBehaviour
         this.leftJumpPoint = new GameObject();
         this.upJumpPoint = new GameObject();
         this.downJumpPoint = new GameObject();
+        restartText.text = "";
 
         // Input Buffer
         inputBuffer = new Queue<KeyCode>();
@@ -136,10 +142,17 @@ public class RollMovement : MonoBehaviour
         // Up Movement
         if (gameEnd)
         {
-            //show text
-            StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
-            // Application.Quit();
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
+            jumpInput = false;
+            moveInput = false;
+            restartText.text = "Press " + this.keys["jump"] + " to Restart";
+            if (Input.GetKey(this.keys["jump"]))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                restartText.text = "";
+                gameEnd = false;
+                jumpInput = true;
+                moveInput = true;
+            }
         }
 
         List<KeyCode> inputs = BufferInput();
