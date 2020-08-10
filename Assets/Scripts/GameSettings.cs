@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    public static readonly int FRAME_RATE = 120;
+    public static readonly int FRAME_RATE = 100;
 
     // GRID
     public static readonly int NUM_ROWS = 9;
@@ -17,4 +17,7 @@ public class GameSettings : MonoBehaviour
     public static readonly int STEP_DISTANCE = 1;
     public static readonly int JUMP_DISTANCE = 4;
     public static readonly int DEGREES_IN_STEP = 2;
+
+    // BUFFER
+    public static readonly int BUFFER_MAX_FRAMES = 8;
 }

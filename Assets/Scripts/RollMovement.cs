@@ -16,6 +16,11 @@ public class RollMovement : MonoBehaviour
 
     public GameObject player;
 
+    // Buffer
+    private Queue<KeyCode> inputBuffer;
+    private int framesInBuffer = -1;
+    private readonly int bufferMaxFrames = GameSettings.BUFFER_MAX_FRAMES;
+
     // Points
     private GameObject center;
     private GameObject jumpCenter;
@@ -31,11 +36,11 @@ public class RollMovement : MonoBehaviour
     public bool isWasd;
 
     // Jump Parameters
-    private int jumpDelay = GameSettings.JUMP_DELAY;
-    private int jumpRotationSpeed = GameSettings.JUMP_ROTATION_SPEED;
-    private int jumpWobbleDegrees = GameSettings.JUMP_WOBBLE_DEGREES;
-    private int stepDistance = GameSettings.STEP_DISTANCE;
-    private int jumpDistance = GameSettings.JUMP_DISTANCE;
+    private readonly int jumpDelay = GameSettings.JUMP_DELAY;
+    private readonly int jumpRotationSpeed = GameSettings.JUMP_ROTATION_SPEED;
+    private readonly int jumpWobbleDegrees = GameSettings.JUMP_WOBBLE_DEGREES;
+    private readonly int stepDistance = GameSettings.STEP_DISTANCE;
+    private readonly int jumpDistance = GameSettings.JUMP_DISTANCE;
 
     // Rotation Parameters
     private int degreesInStep = GameSettings.DEGREES_IN_STEP;
@@ -73,7 +78,7 @@ public class RollMovement : MonoBehaviour
     {
         Application.targetFrameRate = GameSettings.FRAME_RATE;
 
-        // instantiate GameObjects
+        // Instantiate GameObjects
         this.center = new GameObject();
         this.jumpCenter = new GameObject();
         this.rightUp = new GameObject();
@@ -83,6 +88,8 @@ public class RollMovement : MonoBehaviour
         this.upJumpPoint = new GameObject();
         this.downJumpPoint = new GameObject();
 
+        // Input Buffer
+        inputBuffer = new Queue<KeyCode>();
 
         // Set Position
         this.currRow = this.rowStart;
@@ -131,10 +138,14 @@ public class RollMovement : MonoBehaviour
         {
             //show text
             StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
-            Application.Quit();
+            // Application.Quit();
             //SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
         }
-        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["up"]))
+
+        List<KeyCode> inputs = BufferInput();
+        if (inputs == null) return;
+
+        if (jumpInput && moveInput && inputs.Contains(this.keys["jump"]) && inputs.Contains(this.keys["up"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow - jumpDistance, currColumn);
             if (!isOccupied)
@@ -145,7 +156,7 @@ public class RollMovement : MonoBehaviour
                 moveInput = false;
             }
         }
-        if (moveInput && Input.GetKey(this.keys["up"]))
+        if (moveInput && inputs.Contains(this.keys["up"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow - stepDistance, currColumn);
             if (!isOccupied)
@@ -156,7 +167,7 @@ public class RollMovement : MonoBehaviour
             }
         }
         // Down Movement
-        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["down"]))
+        if (jumpInput && moveInput && inputs.Contains(this.keys["jump"]) && inputs.Contains(this.keys["down"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow + jumpDistance, currColumn);
             if (!isOccupied)
@@ -167,7 +178,7 @@ public class RollMovement : MonoBehaviour
                 moveInput = false;
             }
         }
-        if (moveInput && Input.GetKey(this.keys["down"]))
+        if (moveInput && inputs.Contains(this.keys["down"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow + stepDistance, currColumn);
             if (!isOccupied)
@@ -178,7 +189,7 @@ public class RollMovement : MonoBehaviour
             }
         }
         //Left Movement
-        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["left"]))
+        if (jumpInput && moveInput && inputs.Contains(this.keys["jump"]) && inputs.Contains(this.keys["left"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn - jumpDistance);
             if (!isOccupied)
@@ -189,7 +200,7 @@ public class RollMovement : MonoBehaviour
                 moveInput = false;
             }
         }
-        if (moveInput && Input.GetKey(this.keys["left"]))
+        if (moveInput && inputs.Contains(this.keys["left"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn - stepDistance);
             if (!isOccupied)
@@ -200,7 +211,7 @@ public class RollMovement : MonoBehaviour
             }
         }
         // Right Movement
-        if (jumpInput && moveInput && Input.GetKey(this.keys["jump"]) && Input.GetKey(this.keys["right"]))
+        if (jumpInput && moveInput && inputs.Contains(this.keys["jump"]) && inputs.Contains(this.keys["right"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn + jumpDistance);
             if (!isOccupied)
@@ -211,7 +222,7 @@ public class RollMovement : MonoBehaviour
                 moveInput = false;
             }
         }
-        if (moveInput && Input.GetKey(this.keys["right"]))
+        if (moveInput && inputs.Contains(this.keys["right"]))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn + stepDistance);
             if (!isOccupied)
@@ -223,6 +234,42 @@ public class RollMovement : MonoBehaviour
         }
     }
 
+    private List<KeyCode> BufferInput()
+    {
+        foreach (KeyCode keyCode in this.keys.Values)
+        {
+
+            if (Input.GetKey(keyCode))
+            {
+                Debug.Log(keyCode);
+                if (framesInBuffer == -1)
+                {
+                    framesInBuffer = 0;
+                }
+                if (!inputBuffer.Contains(keyCode))
+                {
+                    inputBuffer.Enqueue(keyCode);
+                }
+            }
+        }
+        if (framesInBuffer >= 0)
+        {
+            framesInBuffer++;
+        }
+        if (framesInBuffer > bufferMaxFrames)
+        {
+            framesInBuffer = -1;
+            KeyCode firstInput = inputBuffer.Dequeue();
+            KeyCode secondInput = KeyCode.None;
+            if (inputBuffer.Count >= 1)
+            {
+                secondInput = inputBuffer.Dequeue();
+            }
+            inputBuffer.Clear();
+            return new List<KeyCode> { firstInput, secondInput };
+        }
+        else return null;
+    }
 
     // Set Colors
     private void SetBlockColor(Color color)
