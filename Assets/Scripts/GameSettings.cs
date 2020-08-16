@@ -20,4 +20,8 @@ public class GameSettings : MonoBehaviour
 
     // BUFFER
     public static readonly int BUFFER_MAX_FRAMES = 8;
+
+    // SCORES
+    public static int P1_SCORE = 0;
+    public static int P2_SCORE = 0;
 }

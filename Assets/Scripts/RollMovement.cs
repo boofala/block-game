@@ -23,9 +23,13 @@ public class RollMovement : MonoBehaviour
     private int framesInBuffer = -1;
     private readonly int bufferMaxFrames = GameSettings.BUFFER_MAX_FRAMES;
 
-    // GameEnd
+    // GameEnd and Start
     private bool gameEnd = false;
+
+    //Text
     public Text restartText;
+    public Text continueText;
+    public Text score;
 
     // Points
     private GameObject center;
@@ -92,7 +96,12 @@ public class RollMovement : MonoBehaviour
         this.leftJumpPoint = new GameObject();
         this.upJumpPoint = new GameObject();
         this.downJumpPoint = new GameObject();
+
+        //instantiate text
+        continueText.text = "";
         restartText.text = "";
+        this.score.text = "";
+        //this.score.color = this.blockColor;
 
         // Input Buffer
         inputBuffer = new Queue<KeyCode>();
@@ -139,22 +148,21 @@ public class RollMovement : MonoBehaviour
 
     void Update()
     {
-        // Up Movement
+        //Game States
         if (gameEnd)
         {
             jumpInput = false;
             moveInput = false;
-            restartText.text = "Press " + this.keys["jump"] + " to Restart";
+            continueText.text = "Press " + this.keys["jump"] + " to Continue";
+            restartText.text = "Press 'N' to Restart";
+            score.text = "00";
             if (Input.GetKey(this.keys["jump"]))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                restartText.text = "";
-                gameEnd = false;
-                jumpInput = true;
-                moveInput = true;
             }
         }
-
+        
+        // Up Movement
         List<KeyCode> inputs = BufferInput();
         if (inputs == null) return;
 
