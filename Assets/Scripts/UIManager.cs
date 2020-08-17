@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(Player loser)
     {
         GameSettings.scores[loser] += 1;
-        addScore = false;
+        //addScore = false;
     }
 
     // Game States
