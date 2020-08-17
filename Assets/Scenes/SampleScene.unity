@@ -419,6 +419,10 @@ PrefabInstance:
       propertyPath: score2
       value: 
       objectReference: {fileID: 1052569392}
+    - target: {fileID: 6328461311994745909, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: playerNum
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6328461311994745912, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
       propertyPath: m_Name
       value: Player2
@@ -1027,6 +1031,7 @@ MonoBehaviour:
   gridManager: {fileID: 715281584}
   occupancyManager: {fileID: 321657468}
   uiManager: {fileID: 1212657065}
+  playerNum: 0
   blockColor: {r: 0.5529412, g: 0.07924521, b: 0.32756668, a: 1}
   tileColor: {r: 0.050943315, g: 0.661815, b: 1, a: 0}
   player: {fileID: 1156984165}
