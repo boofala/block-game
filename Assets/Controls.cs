@@ -57,6 +57,14 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d44d104-a667-4322-83fd-8196d9d25ada"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -169,6 +177,28 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8ad0c25a-7705-41ca-b84a-01ec9ad362d1"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d1836429-e58a-4494-97a5-03a66d27c5f6"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -212,6 +242,14 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""cec63d15-e2fa-470a-beea-2abb8fe063d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""b667bd8a-ae42-43d4-ae74-445c00a06944"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -327,6 +365,28 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""147e2868-3734-42b9-86ae-823c7e09a911"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""701dea0a-9620-4f56-9e98-560b42136aea"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -340,6 +400,7 @@ public class @Controls : IInputActionCollection, IDisposable
         m_Player1_Left = m_Player1.FindAction("Left", throwIfNotFound: true);
         m_Player1_Right = m_Player1.FindAction("Right", throwIfNotFound: true);
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
+        m_Player1_Restart = m_Player1.FindAction("Restart", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Up = m_Player2.FindAction("Up", throwIfNotFound: true);
@@ -347,6 +408,7 @@ public class @Controls : IInputActionCollection, IDisposable
         m_Player2_Left = m_Player2.FindAction("Left", throwIfNotFound: true);
         m_Player2_Right = m_Player2.FindAction("Right", throwIfNotFound: true);
         m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
+        m_Player2_Restart = m_Player2.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -401,6 +463,7 @@ public class @Controls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player1_Left;
     private readonly InputAction m_Player1_Right;
     private readonly InputAction m_Player1_Jump;
+    private readonly InputAction m_Player1_Restart;
     public struct Player1Actions
     {
         private @Controls m_Wrapper;
@@ -410,6 +473,7 @@ public class @Controls : IInputActionCollection, IDisposable
         public InputAction @Left => m_Wrapper.m_Player1_Left;
         public InputAction @Right => m_Wrapper.m_Player1_Right;
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
+        public InputAction @Restart => m_Wrapper.m_Player1_Restart;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -434,6 +498,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
+                @Restart.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRestart;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -453,6 +520,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
             }
         }
     }
@@ -466,6 +536,7 @@ public class @Controls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player2_Left;
     private readonly InputAction m_Player2_Right;
     private readonly InputAction m_Player2_Jump;
+    private readonly InputAction m_Player2_Restart;
     public struct Player2Actions
     {
         private @Controls m_Wrapper;
@@ -475,6 +546,7 @@ public class @Controls : IInputActionCollection, IDisposable
         public InputAction @Left => m_Wrapper.m_Player2_Left;
         public InputAction @Right => m_Wrapper.m_Player2_Right;
         public InputAction @Jump => m_Wrapper.m_Player2_Jump;
+        public InputAction @Restart => m_Wrapper.m_Player2_Restart;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -499,6 +571,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnJump;
+                @Restart.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRestart;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -518,6 +593,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
             }
         }
     }
@@ -529,6 +607,7 @@ public class @Controls : IInputActionCollection, IDisposable
         void OnLeft(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -537,5 +616,6 @@ public class @Controls : IInputActionCollection, IDisposable
         void OnLeft(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

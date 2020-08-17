@@ -14,6 +14,7 @@ public class RollMovement : MonoBehaviour
         Left,
         Right,
         Jump,
+        Reset,
         None
     }
 
@@ -40,7 +41,8 @@ public class RollMovement : MonoBehaviour
     //Text
     public Text restartText;
     public Text continueText;
-    public Text score;
+    public Text score1;
+    public Text score2;
 
     // Points
     private GameObject center;
@@ -72,6 +74,7 @@ public class RollMovement : MonoBehaviour
     // Input Variables
     private bool moveInput = true;
     private bool jumpInput = true;
+    private bool addScore = true;
 
     private void Start()
     {
@@ -90,8 +93,8 @@ public class RollMovement : MonoBehaviour
         //instantiate text
         continueText.text = "";
         restartText.text = "";
-        this.score.text = "";
-        //this.score.color = this.blockColor;
+        score1.text = "";
+        score2.text = "";
 
         // Input Buffer
         inputBuffer = new Queue<Movement>();
@@ -124,6 +127,13 @@ public class RollMovement : MonoBehaviour
         SetBlockColor(this.blockColor);
         boardColor = GetTileColor();
         SetTileColor();
+        /*if (player.name == "Player1")
+        {
+            score1.color = this.blockColor;
+        } else
+        {
+            score2.color = this.blockColor;
+        }*/
     }
 
     void Update()
@@ -133,9 +143,21 @@ public class RollMovement : MonoBehaviour
         {
             jumpInput = false;
             moveInput = false;
-            continueText.text = "Press jump to Continue";
-            restartText.text = "Press 'N' to Restart";
-            score.text = "00";
+            if (player.name == "Player2" && addScore)
+            {
+                //uiManager.updateScore(player.name);
+                GameSettings.Player2 += 1;
+                addScore = false;
+            }
+            if (player.name == "Player2" && addScore)
+            {
+                GameSettings.Player1 += 1;
+                addScore = false;
+            }
+            score1.text = GameSettings.Player1.ToString();
+            score2.text = GameSettings.Player2.ToString();
+            continueText.text = player.name.Substring(0, 6) + " " + player.name.Substring(player.name.Length - 1) + ": Press Jump to Continue";
+            restartText.text = "Press 'N' or 'Select' to Restart";
         }
 
         List<Movement> inputs = GetBufferedInputs();
@@ -229,6 +251,12 @@ public class RollMovement : MonoBehaviour
                 moveInput = false;
             }
         }
+
+        //Reset
+        if (inputs.Contains(Movement.Reset))
+        {
+
+        }
     }
 
     public void OnUp() { BufferInput(Movement.Up); }
@@ -246,6 +274,18 @@ public class RollMovement : MonoBehaviour
         } else
         {
             BufferInput(Movement.Jump);
+        }
+    }
+    public void OnRestart()
+    {
+        if (gameEnd)
+        {
+            gameEnd = false;
+            score1.text = "";
+            score2.text = "";
+            GameSettings.Player1 = 0;
+            GameSettings.Player2 = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 

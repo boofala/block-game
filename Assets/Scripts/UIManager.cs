@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+
+    public enum Player
+    {
+        Player1,
+        Player2
+    }
+
     public bool gameStart = true;
     public bool gameEnd = false;
     public GameObject gameState;
@@ -21,16 +28,10 @@ public class UIManager : MonoBehaviour
     private GameObject textParent;
     private Text text;
 
-    // Start is called before the first frame update
-    void Start()
+    public void UpdateScore(Player loser)
     {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameSettings.scores[loser] += 1;
+        addScore = false;
     }
 
     // Game States
