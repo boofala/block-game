@@ -22,6 +22,14 @@ public class GameSettings : MonoBehaviour
     public static readonly int BUFFER_MAX_FRAMES = 8;
 
     // SCORES
-    public static int P1_SCORE = 0;
-    public static int P2_SCORE = 0;
+    //public static int Player1 = 0;
+    //public static int Player2 = 0;
+
+    public static readonly int gameLength = 10;
+
+    public static Dictionary<UIManager.Player, int> scores = new Dictionary<UIManager.Player, int>
+    {
+        {UIManager.Player.Player1, gameLength},
+        {UIManager.Player.Player2, gameLength}
+    };
 }
