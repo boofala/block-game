@@ -21,9 +21,9 @@ public class GameSettings : MonoBehaviour
     // BUFFER
     public static readonly int BUFFER_MAX_FRAMES = 8;
 
-    // SCORES
-    //public static int Player1 = 0;
-    //public static int Player2 = 0;
+    // HEALTH
+    public static readonly int MAX_HEALTH = 100;
+    public static readonly float NATIVE_TILE_DAMAGE = 0.01f;
 
     public static readonly int gameLength = 10;
 

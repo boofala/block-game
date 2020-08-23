@@ -18,6 +18,8 @@ public class RollMovement : MonoBehaviour
         None
     }
 
+    public HealthBar healthBar;
+
     public int rowStart, columnStart;
 
     public GridManager gridManager;
@@ -58,6 +60,9 @@ public class RollMovement : MonoBehaviour
     private GameObject upJumpPoint;
     private GameObject downJumpPoint;
 
+    // Health
+    private float currentHealth;
+    private float damage;
 
     // Jump Parameters
     private readonly int jumpDelay = GameSettings.JUMP_DELAY;
@@ -80,6 +85,9 @@ public class RollMovement : MonoBehaviour
 
     private void Start()
     {
+        this.healthBar.SetMaxHealth(GameSettings.MAX_HEALTH);
+        this.damage = GameSettings.NATIVE_TILE_DAMAGE;
+        this.currentHealth = GameSettings.MAX_HEALTH;
         Application.targetFrameRate = GameSettings.FRAME_RATE;
 
         // Instantiate GameObjects
@@ -140,7 +148,8 @@ public class RollMovement : MonoBehaviour
 
     void Update()
     {
-        //Game States
+        
+        // Game States
         if (gameEnd)
         {
             jumpInput = false;
@@ -164,6 +173,11 @@ public class RollMovement : MonoBehaviour
                 continueText.text = player.name.Substring(0, 6) + " " + player.name.Substring(player.name.Length - 1) + ": Press Jump to Continue";
                 restartText.text = "Press 'N' or 'Select' to Restart";
             }
+        }
+
+        if (GetTileColor() == this.tileColor)
+        {
+            TakeDamage(damage);
         }
 
         List<Movement> inputs = GetBufferedInputs();
@@ -259,6 +273,12 @@ public class RollMovement : MonoBehaviour
         }
     }
 
+    private void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+    }
+
     public void OnUp() { BufferInput(Movement.Up); }
 
     public void OnDown() { BufferInput(Movement.Down); }
@@ -276,6 +296,7 @@ public class RollMovement : MonoBehaviour
             BufferInput(Movement.Jump);
         }
     }
+
     public void OnRestart()
     {
         if (gameEnd || gameFinish)
@@ -350,7 +371,7 @@ public class RollMovement : MonoBehaviour
             yield return null;
         }
         center.transform.position = player.transform.position;
-        if (GetTileColor() != boardColor)
+        if (GetTileColor() != boardColor && GetTileColor() != tileColor)
         {
             gameEnd = true;
         }
