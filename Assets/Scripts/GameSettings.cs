@@ -23,7 +23,8 @@ public class GameSettings : MonoBehaviour
 
     // HEALTH
     public static readonly int MAX_HEALTH = 100;
-    public static readonly float NATIVE_TILE_DAMAGE = 0.01f;
+    public static readonly float DAMAGE = 0.05f;
+    public static readonly int SEDENTARY_THRESHOLD = 75;
 
     public static readonly int gameLength = 10;
 

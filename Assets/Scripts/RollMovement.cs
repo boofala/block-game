@@ -63,6 +63,8 @@ public class RollMovement : MonoBehaviour
     // Health
     private float currentHealth;
     private float damage;
+    private int sedentaryThreshold = GameSettings.SEDENTARY_THRESHOLD;
+    private int sedentaryCount = 0;
 
     // Jump Parameters
     private readonly int jumpDelay = GameSettings.JUMP_DELAY;
@@ -86,7 +88,7 @@ public class RollMovement : MonoBehaviour
     private void Start()
     {
         this.healthBar.SetMaxHealth(GameSettings.MAX_HEALTH);
-        this.damage = GameSettings.NATIVE_TILE_DAMAGE;
+        this.damage = GameSettings.DAMAGE;
         this.currentHealth = GameSettings.MAX_HEALTH;
         Application.targetFrameRate = GameSettings.FRAME_RATE;
 
@@ -136,7 +138,6 @@ public class RollMovement : MonoBehaviour
         // Set Colors
         SetBlockColor(this.blockColor);
         boardColor = GetTileColor();
-        SetTileColor();
         /*if (player.name == "Player1")
         {
             score1.color = this.blockColor;
@@ -175,20 +176,23 @@ public class RollMovement : MonoBehaviour
             }
         }
 
-        if (GetTileColor() == this.tileColor)
+        // Damage
+        sedentaryCount++;
+        if (GetTileColor() == this.tileColor || sedentaryCount > sedentaryThreshold)
         {
             TakeDamage(damage);
         }
 
         List<Movement> inputs = GetBufferedInputs();
         if (inputs == null) return;
-
+        sedentaryCount = 0;
         // Up Movement
         if (jumpInput && moveInput && inputs.Contains(Movement.Jump) && inputs.Contains(Movement.Up))
         {
             bool isOccupied = occupancyManager.getOccupancy(currRow - jumpDistance, currColumn);
             if (!isOccupied)
             {
+                SetTileColor();
                 currRow -= jumpDistance;
                 StartCoroutine(jump(upJumpPoint, rightUp, Vector3.right, Vector3.left));
                 jumpInput = false;
@@ -200,6 +204,7 @@ public class RollMovement : MonoBehaviour
             bool isOccupied = occupancyManager.getOccupancy(currRow - stepDistance, currColumn);
             if (!isOccupied)
             {
+                SetTileColor();
                 currRow -= stepDistance;
                 StartCoroutine(move(rightUp, Vector3.right));
                 moveInput = false;
@@ -211,6 +216,7 @@ public class RollMovement : MonoBehaviour
             bool isOccupied = occupancyManager.getOccupancy(currRow + jumpDistance, currColumn);
             if (!isOccupied)
             {
+                SetTileColor();
                 currRow += jumpDistance;
                 StartCoroutine(jump(downJumpPoint, leftDown, Vector3.left, Vector3.right));
                 jumpInput = false;
@@ -222,6 +228,7 @@ public class RollMovement : MonoBehaviour
             bool isOccupied = occupancyManager.getOccupancy(currRow + stepDistance, currColumn);
             if (!isOccupied)
             {
+                SetTileColor();
                 currRow += stepDistance;
                 StartCoroutine(move(leftDown, Vector3.left));
                 moveInput = false;
@@ -233,6 +240,7 @@ public class RollMovement : MonoBehaviour
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn - jumpDistance);
             if (!isOccupied)
             {
+                SetTileColor();
                 currColumn -= jumpDistance;
                 StartCoroutine(jump(leftJumpPoint, leftDown, Vector3.forward, Vector3.back));
                 jumpInput = false;
@@ -244,6 +252,7 @@ public class RollMovement : MonoBehaviour
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn - stepDistance);
             if (!isOccupied)
             {
+                SetTileColor();
                 currColumn -= stepDistance;
                 StartCoroutine(move(leftDown, Vector3.forward));
                 moveInput = false;
@@ -255,6 +264,7 @@ public class RollMovement : MonoBehaviour
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn + jumpDistance);
             if (!isOccupied)
             {
+                SetTileColor();
                 currColumn += jumpDistance;
                 StartCoroutine(jump(rightJumpPoint, rightUp, Vector3.back, Vector3.forward));
                 jumpInput = false;
@@ -266,6 +276,7 @@ public class RollMovement : MonoBehaviour
             bool isOccupied = occupancyManager.getOccupancy(currRow, currColumn + stepDistance);
             if (!isOccupied)
             {
+                SetTileColor();
                 currColumn += stepDistance;
                 StartCoroutine(move(rightUp, Vector3.back));
                 moveInput = false;
@@ -277,6 +288,10 @@ public class RollMovement : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+        if (currentHealth < 0)
+        {
+            gameEnd = true;
+        }
     }
 
     public void OnUp() { BufferInput(Movement.Up); }
@@ -375,8 +390,8 @@ public class RollMovement : MonoBehaviour
         {
             gameEnd = true;
         }
-        SetTileColor();
         moveInput = true;
+        sedentaryCount = 0;
     }
 
     IEnumerator jump(GameObject jumpPoint, GameObject point, Vector3 direction, Vector3 wobbleDirection)
@@ -399,14 +414,14 @@ public class RollMovement : MonoBehaviour
             yield return null;
         }
         center.transform.position = player.transform.position;
-        if (GetTileColor() != boardColor)
+        if (GetTileColor() != boardColor && GetTileColor() != tileColor)
         {
             gameEnd = true;
         }
-        SetTileColor();
         yield return null;
         jumpInput = true;
         moveInput = true;
+        sedentaryCount = 0;
     }
 
 }
