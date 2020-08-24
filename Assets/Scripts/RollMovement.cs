@@ -65,6 +65,7 @@ public class RollMovement : MonoBehaviour
     private float damage;
     private int sedentaryThreshold = GameSettings.SEDENTARY_THRESHOLD;
     private int sedentaryCount = 0;
+    private int lives = GameSettings.gameLength;
 
     // Jump Parameters
     private readonly int jumpDelay = GameSettings.JUMP_DELAY;
@@ -319,8 +320,8 @@ public class RollMovement : MonoBehaviour
             gameEnd = false;
             score1.text = "";
             score2.text = "";
-            GameSettings.scores[UIManager.Player.Player1] = 0;
-            GameSettings.scores[UIManager.Player.Player2] = 0;
+            GameSettings.scores[UIManager.Player.Player1] = lives;
+            GameSettings.scores[UIManager.Player.Player2] = lives;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

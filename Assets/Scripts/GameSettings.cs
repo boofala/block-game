@@ -26,7 +26,7 @@ public class GameSettings : MonoBehaviour
     public static readonly float DAMAGE = 0.05f;
     public static readonly int SEDENTARY_THRESHOLD = 75;
 
-    public static readonly int gameLength = 10;
+    public static readonly int gameLength = 5;
 
     public static Dictionary<UIManager.Player, int> scores = new Dictionary<UIManager.Player, int>
     {
