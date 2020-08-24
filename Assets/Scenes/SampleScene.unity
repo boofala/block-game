@@ -549,12 +549,116 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
       propertyPath: m_Actions
       value: 
       objectReference: {fileID: -944628639613478452, guid: dc7e8676b7aa2154fa2ee159aad97415, type: 3}
     - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
       propertyPath: m_DefaultActionMap
-      value: 39e533b8-cb4e-4255-946b-2409e6b00b35
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 4d0a2ca9-cf43-42af-9584-fdaef1da3472
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: Player1/Up[/Keyboard/w]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: 9f5f8434-b11a-4252-a8ff-a4d80655d60c
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionName
+      value: Player1/Down[/Keyboard/s]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: 3687587e-c19e-405d-bc8e-33d55c7b3042
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: Player1/Left[/Keyboard/a]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 646a280d-c2da-4e56-9a63-b36d1a9bb29a
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: Player1/Right[/Keyboard/d]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: 3e8822e6-8848-4c20-aa03-4ff184b7708b
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: Player1/Jump[/Keyboard/space]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: 9d44d104-a667-4322-83fd-8196d9d25ada
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: Player1/Restart[/Keyboard/n]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionId
+      value: ce8f3c74-5409-4b12-9848-abc6a4cfe51f
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionName
+      value: Player2/Up[/Keyboard/i]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionId
+      value: 73a168f1-0b94-41a8-a0ef-300486886020
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionName
+      value: Player2/Down[/Keyboard/k]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionId
+      value: 45f71b13-8ce2-475d-9c79-c7f1416bec3e
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionName
+      value: Player2/Left[/Keyboard/j]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[9].m_ActionId
+      value: ef63f611-cc6b-43ec-a27a-cfc483daea3d
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[9].m_ActionName
+      value: Player2/Right[/Keyboard/l]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[10].m_ActionId
+      value: cec63d15-e2fa-470a-beea-2abb8fe063d7
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[10].m_ActionName
+      value: Player2/Jump[/Keyboard/shift]
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionId
+      value: b667bd8a-ae42-43d4-ae74-445c00a06944
+      objectReference: {fileID: 0}
+    - target: {fileID: -1500313641461593483, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionName
+      value: Player2/Restart[/Keyboard/n]
       objectReference: {fileID: 0}
     - target: {fileID: 6114633424080508390, guid: 3d1914f1047968f42b60efd463aa5c90, type: 3}
       propertyPath: m_Materials.Array.data[0]

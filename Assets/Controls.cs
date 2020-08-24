@@ -24,7 +24,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""4d0a2ca9-cf43-42af-9584-fdaef1da3472"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Down"",
@@ -32,7 +32,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""9f5f8434-b11a-4252-a8ff-a4d80655d60c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Left"",
@@ -40,7 +40,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""3687587e-c19e-405d-bc8e-33d55c7b3042"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Right"",
@@ -48,7 +48,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""646a280d-c2da-4e56-9a63-b36d1a9bb29a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Jump"",
@@ -212,7 +212,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""ce8f3c74-5409-4b12-9848-abc6a4cfe51f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Down"",
@@ -220,7 +220,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""73a168f1-0b94-41a8-a0ef-300486886020"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Left"",
@@ -228,7 +228,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""45f71b13-8ce2-475d-9c79-c7f1416bec3e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Right"",
@@ -236,7 +236,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""ef63f611-cc6b-43ec-a27a-cfc483daea3d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Jump"",
