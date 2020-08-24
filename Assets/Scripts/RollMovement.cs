@@ -35,6 +35,7 @@ public class RollMovement : MonoBehaviour
 
     // Buffer
     private Queue<Movement> inputBuffer;
+    private List<Movement> oldInputs;
     private int framesInBuffer = -1;
     private readonly int bufferMaxFrames = GameSettings.BUFFER_MAX_FRAMES;
 
@@ -75,12 +76,19 @@ public class RollMovement : MonoBehaviour
 
     // Rotation Parameters
     private int degreesInStep = GameSettings.DEGREES_IN_STEP;
-    
+
     // Grid Variables
     private int currRow, currColumn;
     private Color boardColor;
 
     // Input Variables
+    private Dictionary<Movement, bool> movementState = new Dictionary<Movement, bool>()
+    {
+        {Movement.Up, false},
+        {Movement.Down, false},
+        {Movement.Left, false},
+        {Movement.Right, false},
+    };
     private bool moveInput = true;
     private bool jumpInput = true;
     private bool addScore = true;
@@ -184,7 +192,9 @@ public class RollMovement : MonoBehaviour
         }
 
         List<Movement> inputs = GetBufferedInputs();
+        BufferInput(Movement.None);
         if (inputs == null) return;
+        oldInputs = inputs;
         sedentaryCount = 0;
         // Up Movement
         if (jumpInput && moveInput && inputs.Contains(Movement.Jump) && inputs.Contains(Movement.Up))
@@ -294,13 +304,38 @@ public class RollMovement : MonoBehaviour
         }
     }
 
-    public void OnUp() { BufferInput(Movement.Up); }
+    public void OnUp() {
+        movementState[Movement.Up] ^= true;
+        if (movementState[Movement.Up])
+        {
+            BufferInput(Movement.Up);
+        }
+        
+    }
 
-    public void OnDown() { BufferInput(Movement.Down); }
+    public void OnDown() {
+        movementState[Movement.Down] ^= true;
+        if (movementState[Movement.Down])
+        {
+            BufferInput(Movement.Down);
+        }
+    }
 
-    public void OnLeft() { BufferInput(Movement.Left); }
+    public void OnLeft() {
+        movementState[Movement.Left] ^= true;
+        if (movementState[Movement.Left])
+        {
+            BufferInput(Movement.Left);
+        }
+    }
 
-    public void OnRight() { BufferInput(Movement.Right); }
+    public void OnRight() {
+        movementState[Movement.Right] ^= true;
+        if (movementState[Movement.Right])
+        {
+            BufferInput(Movement.Right);
+        }
+    }
 
     public void OnJump() {
         if (gameEnd)
@@ -327,18 +362,33 @@ public class RollMovement : MonoBehaviour
 
     private void BufferInput(Movement movement)
     {
-        if (framesInBuffer == -1)
+        if (movement == Movement.None && oldInputs != null)
         {
-            framesInBuffer = 0;
-        }
-        if (!inputBuffer.Contains(movement))
+            // Check old inputs to see if they're still pressed
+            foreach (Movement oldMovement in oldInputs)
+            {
+                if (oldMovement != Movement.None && oldMovement != Movement.Jump && movementState[oldMovement])
+                {
+                    if (framesInBuffer == -1)
+                    {
+                        framesInBuffer = 0;
+                    }
+                    inputBuffer.Enqueue(oldMovement);
+                }
+            }
+        } else
         {
+            if (framesInBuffer == -1)
+            {
+                framesInBuffer = 0;
+            }
             inputBuffer.Enqueue(movement);
         }
     }
 
     private List<Movement> GetBufferedInputs()
     {
+
         if (framesInBuffer >= 0)
         {
             framesInBuffer++;
@@ -380,7 +430,8 @@ public class RollMovement : MonoBehaviour
     // Move
     IEnumerator move(GameObject point, Vector3 direction)
     {
-        for (int i = 0; i < (90 / degreesInStep); i ++)
+        int framesInMove = 90 / degreesInStep;
+        for (int i = 0; i < framesInMove; i ++)
         {
             player.transform.RotateAround(point.transform.position, direction, degreesInStep);
             yield return null;
