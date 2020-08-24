@@ -29,8 +29,6 @@ public class RollMovement : MonoBehaviour
     public UIManager.Player playerNum;
     public Color blockColor;
 
-    public Color tileColor;
-
     public GameObject player;
 
     // Buffer
@@ -187,7 +185,7 @@ public class RollMovement : MonoBehaviour
 
         // Damage
         sedentaryCount++;
-        if (GetTileColor() == this.tileColor || sedentaryCount > sedentaryThreshold)
+        if ((moveInput && jumpInput) && (GetTileColor() == this.blockColor || sedentaryCount > sedentaryThreshold))
         {
             TakeDamage(damage);
         }
@@ -419,7 +417,7 @@ public class RollMovement : MonoBehaviour
 
     private void SetTileColor()
     {
-        gridManager.SetColor(currRow, currColumn, this.tileColor);
+        gridManager.SetColor(currRow, currColumn, this.blockColor);
     }
 
     // Get Colors
@@ -438,7 +436,7 @@ public class RollMovement : MonoBehaviour
             yield return null;
         }
         center.transform.position = player.transform.position;
-        if (GetTileColor() != boardColor && GetTileColor() != tileColor)
+        if (GetTileColor() != boardColor && GetTileColor() != blockColor)
         {
             gameEnd = true;
         }
@@ -466,7 +464,7 @@ public class RollMovement : MonoBehaviour
             yield return null;
         }
         center.transform.position = player.transform.position;
-        if (GetTileColor() != boardColor && GetTileColor() != tileColor)
+        if (GetTileColor() != boardColor && GetTileColor() != blockColor)
         {
             gameEnd = true;
         }
